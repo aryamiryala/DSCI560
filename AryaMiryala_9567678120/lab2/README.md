@@ -1,9 +1,9 @@
 # DSCI-560 Lab 2: Data Exploration & Collection
 
 ## Team Information
-* **Member 1:** [Arya Miryala]
-* **Member 2:** [Grace Wu] 
-* **Member 3:** [Hui Xie]
+* **Member 1:** Arya Miryala
+* **Member 2:** Grace Wu 
+* **Member 3:** Hui Xie
 ---
 
 ## Project Overview
