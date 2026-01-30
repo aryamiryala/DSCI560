@@ -36,4 +36,4 @@ The following results were benchmarked on an **NVIDIA Tesla T4 GPU**:
 * `matrix_tiled.cu`: Advanced implementation utilizing GPU shared memory.
 * `matrix_cublas.cu`: Implementation using NVIDIA’s optimized libraries.
 * `matrix_lib.cu`: The core engine for the Python-accessible shared library.
-* `benchmark_suite.ipynb`: Full data collection, visualization, and performance analysis.
+* `Lab3_DSCI560.ipynb`: Full data collection, visualization, and performance analysis.
