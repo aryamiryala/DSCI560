@@ -25,7 +25,7 @@ The following results were benchmarked on an **NVIDIA Tesla T4 GPU**:
 
 ### Final Performance Comparison
 
-| M | N | C_ms | CUDA_Direct_ms | Python_Lib_ms | Total_Acceleration |
+| M | N | C | CUDA_Direct | CUDA_Accelerated_Python | Total_Acceleration |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 512 | 3 | 3.705 | 7.712 | 1.420 | 2.61x |
 | 512 | 5 | 8.525 | 7.821 | 1.591 | 5.36x |
