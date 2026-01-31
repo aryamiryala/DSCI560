@@ -23,16 +23,19 @@ The following results were benchmarked on an **NVIDIA Tesla T4 GPU**:
 | **cuBLAS (NVIDIA)** | 11.54 ms | ~7,224x |
 
 
-#### 2D Image Convolution Scaling (GPU Time in ms)
+### Final Performance Comparison
 
-| Image Size (M) | Filter N=3 | Filter N=5 | Filter N=7 |
-| :--- | :--- | :--- | :--- |
-| **512 x 512** | 1.42 ms | 1.59 ms | 1.44 ms |
-| **1024 x 1024** | 3.13 ms | 3.11 ms | 3.08 ms |
-| **2048 x 2048** | 15.18 ms | 17.67 ms | 9.14 ms |
-
-> **Note:** For the largest workload (M=2048, N=7), the Python-integrated CUDA solution achieved a **28.49x speedup** over the standalone non-accelerated C executable.
-
+| M | N | C_ms | CUDA_Direct_ms | Python_Lib_ms | Total_Acceleration |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 512 | 3 | 3.705 | 7.712 | 1.420 | 2.61x |
+| 512 | 5 | 8.525 | 7.821 | 1.591 | 5.36x |
+| 512 | 7 | 15.127 | 7.252 | 1.442 | 10.49x |
+| 1024 | 3 | 15.096 | 7.193 | 3.128 | 4.83x |
+| 1024 | 5 | 33.261 | 7.171 | 3.110 | 10.70x |
+| 1024 | 7 | 60.717 | 7.416 | 3.079 | 19.72x |
+| 2048 | 3 | 59.750 | 7.440 | 15.179 | 3.94x |
+| 2048 | 5 | 130.771 | 7.162 | 17.673 | 7.40x |
+| 2048 | 7 | 260.529 | 7.295 | 9.143 | 28.50x |
 
 
 ### Technology Stack
