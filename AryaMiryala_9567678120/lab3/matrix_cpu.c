@@ -15,7 +15,7 @@ void matrixMultiplyCPU(float *A, float *B, float *C, int N) {
 }
 
 int main(int argc, char **argv) {
-    // allow matrix size as input [cite: 306, 309]
+    // allow matrix size as input
     int N = (argc > 1) ? atoi(argv[1]) : 1024;
     size_t size = (size_t)N * N * sizeof(float);
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     float *B = (float *)malloc(size);
     float *C = (float *)malloc(size);
 
-    // Initialize matrices [cite: 311, 312]
+    // Initialize matrices
     for (int i = 0; i < N * N; i++) {
         A[i] = (float)(rand() % 100) / 100.0f;
         B[i] = (float)(rand() % 100) / 100.0f;

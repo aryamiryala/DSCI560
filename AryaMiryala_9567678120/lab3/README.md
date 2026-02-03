@@ -45,9 +45,10 @@ The following results were benchmarked on an **NVIDIA Tesla T4 GPU**:
 * **Tooling:** NVCC Compiler, GCC, Google Colab (Tesla T4)
 
 ### Repository Contents
-* `matrix_cpu.c`: The CPU-bound baseline implementation.
-* `matrix_gpu.cu`: Entry-level parallelization using CUDA.
-* `matrix_tiled.cu`: Advanced implementation utilizing GPU shared memory.
-* `matrix_cublas.cu`: Implementation using NVIDIA’s optimized libraries.
-* `matrix_lib.cu`: The core engine for the Python-accessible shared library.
-* `Lab3_DSCI560.ipynb`: Full data collection, visualization, and performance analysis.
+* `matrix_cpu.c`: The CPU-bound baseline implementation
+* `matrix_gpu.cu`: Entry-level parallelization using CUDA
+* `matrix_tiled.cu`: Advanced implementation utilizing GPU shared memory
+* `matrix_cublas.cu`: Implementation using NVIDIA’s optimized libraries
+* `matrix_lib.cu`: The core engine for the Python-accessible shared library
+* `conv_gpu_standalone.cu`: Native CUDA executable for benchmarking performance without Python overhead
+* `Lab3_DSCI560.ipynb`: Full data collection, visualization, and performance analysis
