@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
     cudaEventRecord(start);
 
-    // compute C = B * A in column-major.
+    // compute C = B * A
     cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, N, N, N, &alpha, d_B, N, d_A, N, &beta, d_C, N);
     cudaEventRecord(stop);
 

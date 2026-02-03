@@ -1,45 +1,47 @@
 #include <stdio.h>
 #include <cuda_runtime.h>
 
-#define TILE_WIDTH 16 // [cite: 366]
+#define TILE_WIDTH 16
 
 __global__ void matrixMultiplyTiled(float *A, float *B, float *C, int N) {
-    __shared__ float ds_A[TILE_WIDTH][TILE_WIDTH]; // [cite: 370]
-    __shared__ float ds_B[TILE_WIDTH][TILE_WIDTH]; // [cite: 371]
+    __shared__ float ds_A[TILE_WIDTH][TILE_WIDTH];
+    __shared__ float ds_B[TILE_WIDTH][TILE_WIDTH];
 
     int bx = blockIdx.x; int by = blockIdx.y;
     int tx = threadIdx.x; int ty = threadIdx.y;
 
-    int Row = by * TILE_WIDTH + ty; // [cite: 379]
-    int Col = bx * TILE_WIDTH + tx; // [cite: 381]
+    int Row = by * TILE_WIDTH + ty;
+    int Col = bx * TILE_WIDTH + tx;
 
     float Pvalue = 0.0;
 
-    // Loop over the tiles required to compute the C element [cite: 383]
+    // Loop over the tiles required to compute the C element
     for (int m = 0; m < (N + TILE_WIDTH - 1) / TILE_WIDTH; ++m) {
 
-        // Load tile from A into shared memory [cite: 387]
+        // Load tile from A into shared memory
         if (Row < N && (m * TILE_WIDTH + tx) < N)
             ds_A[ty][tx] = A[Row * N + m * TILE_WIDTH + tx];
         else
             ds_A[ty][tx] = 0.0f;
 
-        // Load tile from B into shared memory [cite: 395]
+        // Load tile from B into shared memory
         if (Col < N && (m * TILE_WIDTH + ty) < N)
             ds_B[ty][tx] = B[(m * TILE_WIDTH + ty) * N + Col];
         else
             ds_B[ty][tx] = 0.0f;
 
-        __syncthreads(); // Wait for all threads to load their elements [cite: 398]
+        // Wait for all threads to load their elements
+        __syncthreads();
 
         for (int k = 0; k < TILE_WIDTH; ++k)
-            Pvalue += ds_A[ty][k] * ds_B[k][tx]; // [cite: 400]
+            Pvalue += ds_A[ty][k] * ds_B[k][tx];
 
-        __syncthreads(); // Wait before loading next tile [cite: 400]
+        // Wait before loading next tile
+        __syncthreads();
     }
 
     if (Row < N && Col < N)
-        C[Row * N + Col] = Pvalue; // [cite: 402, 403]
+        C[Row * N + Col] = Pvalue;
 }
 
 int main(int argc, char **argv) {
@@ -63,15 +65,15 @@ int main(int argc, char **argv) {
     cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
 
-    dim3 dimBlock(TILE_WIDTH, TILE_WIDTH); // [cite: 496]
-    dim3 dimGrid((N + TILE_WIDTH - 1) / TILE_WIDTH, (N + TILE_WIDTH - 1) / TILE_WIDTH); // [cite: 496]
+    dim3 dimBlock(TILE_WIDTH, TILE_WIDTH);
+    dim3 dimGrid((N + TILE_WIDTH - 1) / TILE_WIDTH, (N + TILE_WIDTH - 1) / TILE_WIDTH);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
 
     cudaEventRecord(start);
-    matrixMultiplyTiled<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, N); // [cite: 499]
+    matrixMultiplyTiled<<<dimGrid, dimBlock>>>(d_A, d_B, d_C, N); //
     cudaEventRecord(stop);
 
     cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
