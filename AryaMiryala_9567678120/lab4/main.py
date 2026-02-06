@@ -1,25 +1,33 @@
 # run all of the files and do evaluation metrics. print the results
 #metrics: total return, annual return, ratio
 from load import load_data
-from alg import mov_avg_alg
+from signal import mov_avg_alg
 from simulator import trading_sim
+from lstm_pred import train_lstm, predict_lstm
+
 import numpy as np
+
 
 def main():
     file_path = "somefileweget.csv"
     stock_data = load_data(file_path)
     prices = stock_data['Close']
 
-    #can edit this parameteres for strat
-    short_win = 10
-    long_win = 30
+    #can edit this parameteres
     initial_cap = 10000
     risk_free_rate = 0.0
 
-    signal = mov_avg_alg(prices, short_win, long_win)
-    
+    model, scaler = train_lstm(prices, lookback=60, epochs=10)
+
+    # Predict prices
+    predicted_prices = predict_lstm(model, prices, scaler)
+
+    # Generate signals from predicted prices
+    signals = mov_avg_alg(predicted_prices, 10, 30)
+    signals = signals.fillna(0)
+
     #run the simulator
-    portfolio_values, daily_returns = trading_sim(prices, signal, initial_cap)
+    portfolio_values, daily_returns = trading_sim(prices, signals, initial_cap)
 
     #metrics
 
