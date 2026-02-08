@@ -2,7 +2,7 @@
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 This project implements an end-to-end algorithmic trading system using Python. We collected real-time stock data (via `yfinance`) and developed four distinct trading strategies to analyze price trends and execute buy/sell signals:
 
@@ -13,7 +13,7 @@ This project implements an end-to-end algorithmic trading system using Python. W
 
 The performance of these models was evaluated in a mock trading environment using metrics such as **Total Portfolio Value**, **Annualized Returns**, and the **Sharpe Ratio**.
 
-## 🛠 Requirements & Dependencies
+##  Requirements & Dependencies
 
 The solution is designed to run in a Python environment (specifically Google Colab). The following libraries are required:
 
@@ -24,12 +24,12 @@ The solution is designed to run in a Python environment (specifically Google Col
 * `sklearn` (Metrics and preprocessing)
 * `matplotlib` (Visualization)
 
-## 📂 Files Included
+##  Files Included
 
 * **`Lab4_DSCI560.ipynb`**: The primary executable file containing the complete code for data collection, algorithm implementation, backtesting, and evaluation.
 * **`Meeting_Minutes.pdf`**: Documentation of daily team discussions and workflow.
 
-## 🚀 Installation & Execution Instructions (Google Colab)
+## Installation & Execution Instructions (Google Colab)
 
 For the most reliable execution, we recommend running the solution via Google Colab, as it pre-configures the necessary environment for the LSTM and ARIMA models.
 
@@ -40,11 +40,11 @@ For the most reliable execution, we recommend running the solution via Google Co
     * *Note: The LSTM model training may take a few moments to complete.*
 5.  **View Results:** The notebook will output the dataframe heads, training logs, and a final summary comparing the performance metrics of all four models.
 
-## 📊 Summary of Results & Rationale
+##  Summary of Results & Rationale
 
 After backtesting all strategies on Apple (AAPL) stock data from 2024–2026:
 
-* **🏆 Best Model:** The Hybrid Model (SMA + RSI).
+* **Best Model:** The Hybrid Model (SMA + RSI).
 
 ### Rationale
 While the Simple Moving Average generated slightly higher raw profits, the **Hybrid Model achieved the highest Sharpe Ratio (0.77)**. This indicates that it generated the best risk-adjusted returns by using the RSI (Relative Strength Index) to avoid buying into overextended (overbought) positions, offering a more stable investment strategy than the standalone SMA or the predictive ARIMA/LSTM models.
