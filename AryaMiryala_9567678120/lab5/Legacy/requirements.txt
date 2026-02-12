@@ -1,0 +1,15 @@
+praw
+requests
+beautifulsoup4
+sqlalchemy
+pymysql
+python-dotenv
+pillow
+pytesseract
+gensim
+scikit-learn
+nltk
+tqdm
+matplotlib
+umap-learn
+sentence-transformers 
