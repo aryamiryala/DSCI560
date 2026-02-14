@@ -40,7 +40,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     interval_min = int(sys.argv[1])
-    n_to_fetch = 50 # Standard batch size
+    n_to_fetch = 35
     
     print(f"Starting automation with interval: {interval_min} minutes.")
     

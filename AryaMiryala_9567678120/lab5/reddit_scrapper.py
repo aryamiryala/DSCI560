@@ -140,4 +140,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     engine = create_engine(MYSQL_URL)
-    scrape_subreddit("hardwareswap", args.n, engine)
+    scrape_subreddit("investing", args.n, engine)
