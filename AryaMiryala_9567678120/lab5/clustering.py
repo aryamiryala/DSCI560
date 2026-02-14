@@ -25,7 +25,7 @@ def run_analysis():
 
     # Find messages closest to centroids
     for i, center in enumerate(kmeans.cluster_centers_):
-        cluster_indices = where(df['cluster'] == i)[0]
+        cluster_indices = np.where(df['cluster'] == i)[0]
         
     # Update database
     with engine.connect() as conn:
