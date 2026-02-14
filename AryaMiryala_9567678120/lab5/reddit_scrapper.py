@@ -11,7 +11,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import IntegrityError
 from collections import Counter
 
-MYSQL_URL = "mysql+pymysql://root:PASSWORD@localhost:3306/lab5_db"
+MYSQL_URL = "mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db"
 
 # Salt for anonymization
 SALT = "dsci560_salt_2026"
