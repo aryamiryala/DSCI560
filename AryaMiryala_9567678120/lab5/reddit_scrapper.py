@@ -107,7 +107,7 @@ def scrape_subreddit(subreddit_name, num_posts, engine):
                 "url": submission.get("url")
             }
 
-            # OCR LOGIC: Process images if URL looks like an image file
+            #  Process images if URL looks like an image file
             image_url = submission.get("url", "")
             if any(ext in image_url.lower() for ext in [".jpg", ".png", ".jpeg"]):
                 img_path = download_image(image_url)
@@ -118,7 +118,7 @@ def scrape_subreddit(subreddit_name, num_posts, engine):
                     except Exception as e:
                         print(f"OCR Error for {image_url}: {e}")
                     finally:
-                        # CRITICAL: Delete image to maintain your 7.3GB free space
+                        # Delete image 
                         if os.path.exists(img_path):
                             os.remove(img_path)
 
