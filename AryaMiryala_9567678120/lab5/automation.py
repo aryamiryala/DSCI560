@@ -5,7 +5,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 # Use the same connection as our scraper
-MYSQL_URL = "mysql+pymysql://root1234@127.0.0.1:3306/lab5_db"
+MYSQL_URL = "mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db"
 
 def run_full_pipeline(n_posts):
     print(f"\n[{time.ctime()}] Collecting data...")
