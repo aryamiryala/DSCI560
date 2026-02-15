@@ -6,7 +6,7 @@ from sklearn.cluster import KMeans
 from scipy.spatial import distance
 
 def run_analysis():
-    engine = create_engine("mysql+pymysql://root@127.0.0.1:3306/lab5_db")
+    engine = create_engine("mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db")
     # select id to identify each post and the cleaned_text to create the math vectors
     df = pd.read_sql("SELECT id, cleaned_text FROM posts", engine)
     
