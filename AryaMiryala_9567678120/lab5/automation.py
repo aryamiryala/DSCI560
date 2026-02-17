@@ -3,21 +3,22 @@ import time
 import subprocess
 import pandas as pd
 from sqlalchemy import create_engine
+import os
 
 # Use the same connection as our scraper
-MYSQL_URL = "mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db"
+MYSQL_URL = os.environ.get("MYSQL_URL")
+engine = create_engine(MYSQL_URL)
 
 def run_full_pipeline(n_posts):
     print(f"\n[{time.ctime()}] Collecting data...")
     subprocess.run(["python3", "reddit_scrapper.py", str(n_posts)])
     
     print(f"[{time.ctime()}] Processing & clustering...")
-    # This runs the analysis script you just verified in IMG_0661.jpg
+    # runs analysis
     subprocess.run(["python3", "clustering.py"]) 
     print(f"[{time.ctime()}] Update complete \n")
 
 def find_closest_cluster(user_input):
-    engine = create_engine(MYSQL_URL)
     # Keyword search to find which cluster the user's input might belong to
     query = f"SELECT cluster, COUNT(*) as count FROM posts WHERE cleaned_text LIKE '%%{user_input}%%' GROUP BY cluster ORDER BY count DESC LIMIT 1;"
     result = pd.read_sql(query, engine)

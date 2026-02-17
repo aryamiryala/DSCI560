@@ -1,15 +1,18 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-# Use your verified connection string
-engine = create_engine("mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db")
+import os
+
+# sql connection
+MYSQL_URL = os.environ.get("MYSQL_URL")
+engine = create_engine(MYSQL_URL)
 
 def export_data():
     print("Fetching 5,000 records from MySQL...")
     # Fetch everything so your CSV is complete
     df = pd.read_sql("SELECT * FROM posts", engine)
     
-    # Save it, overwriting the old 100-record file
+    # save
     df.to_csv("posts.csv", index=False)
     print(f"Done! posts.csv now contains {len(df)} records.")
 

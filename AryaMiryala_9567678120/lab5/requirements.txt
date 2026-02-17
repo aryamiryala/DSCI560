@@ -2,3 +2,13 @@ requests
 sqlalchemy
 pymysql
 tqdm
+pytesseract
+Pillow
+pandas
+numpy
+gensim
+scikit-learn
+scipy
+matplotlib
+pickle
+

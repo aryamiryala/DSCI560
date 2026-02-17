@@ -11,17 +11,23 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import IntegrityError
 from collections import Counter
 
-MYSQL_URL = "mysql+pymysql://root:1234@127.0.0.1:3306/lab5_db"
+import os
+
+MYSQL_URL = os.environ.get("MYSQL_URL")
+engine = create_engine(MYSQL_URL)
 
 # Salt for anonymization
 SALT = "dsci560_salt_2026"
 
+#adds salt and username, then hashes with SHA256
+#returns the users first 12 hex
 def mask_username(u):
     if u is None:
         return "deleted"
     h = hashlib.sha256((SALT + u).encode("utf-8")).hexdigest()
     return f"user_{h[:12]}"
 
+#removes any markdown links, urls, formatting, and non-alphanumeric characters
 def clean_text(text):
     if not text: return ""
     text = re.sub(r"\[.*?\]\(.*?\)", "", text)
@@ -31,6 +37,7 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
+#removes simple stop words and uses a counter to get the most freq words
 def extract_keywords(text, top_n=5):
     words = text.lower().split()
     stopwords = {"the","and","is","in","to","of","for","on","an","with","this","that","it","be"}
@@ -38,6 +45,8 @@ def extract_keywords(text, top_n=5):
     freq = Counter(words)
     return ",".join([w for w, _ in freq.most_common(top_n)])
 
+#checks if url ends with img and donwloads the image
+#pytesseract used to transform to string
 def download_image(url, dest_folder="/tmp/reddit_images"):
     os.makedirs(dest_folder, exist_ok=True)
     fname = os.path.join(dest_folder, url.split("/")[-1].split("?")[0])
@@ -51,6 +60,7 @@ def download_image(url, dest_folder="/tmp/reddit_images"):
         return None
     return None
 
+#save each post to sql database
 def save_post_to_db(conn, post):
     sql = text("""
     INSERT INTO posts 
@@ -64,8 +74,11 @@ def save_post_to_db(conn, post):
         conn.commit()
     except Exception as e:
         conn.rollback()
-        print(f"DB Error: {e}")
+        print(f"Error: {e}")
 
+
+#uses reddit json endpoint to fetch posts
+#skips sticked and promoted
 def scrape_subreddit(subreddit_name, num_posts, engine):
     conn = engine.connect()
     fetched = 0
@@ -88,7 +101,7 @@ def scrape_subreddit(subreddit_name, num_posts, engine):
             if fetched >= num_posts: break
             submission = item["data"]
             if submission.get("stickied") or submission.get("promoted"): continue
-
+            #clean raw text
             raw_title = submission.get("title", "")
             raw_body = submission.get("selftext", "")
             combined_text = raw_title + " " + raw_body
@@ -127,7 +140,7 @@ def scrape_subreddit(subreddit_name, num_posts, engine):
             pbar.update(1)
 
         after = data["data"].get("after")
-        time.sleep(1) # Respect Reddit API
+        time.sleep(1) # rest time
         if not after: break
 
     conn.close()
