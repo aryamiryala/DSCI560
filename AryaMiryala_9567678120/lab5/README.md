@@ -2,7 +2,7 @@
 
 ## Overview
 
-Due to delays in Reddit API key approval, we utilized Reddit’s publicly accessible JSON endpoints (e.g., https://www.reddit.com/r/hardwareswap/new.json) to retrieve structured subreddit data.
+Due to delays in Reddit API key approval, we utilized Reddit’s publicly accessible JSON endpoints (e.g., https://www.reddit.com/r/investing/new.json) to retrieve structured subreddit data.
 
 This method provides direct access to Reddit’s REST data in JSON format without requiring OAuth authentication. Compared to HTML scraping with BeautifulSoup, the JSON endpoint provides cleaner, structured data and simplifies pagination using the `after` parameter. Therefore, it served as a reliable alternative to PRAW for data collection.
 
