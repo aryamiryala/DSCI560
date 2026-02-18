@@ -9,34 +9,31 @@ class Portfolio:
         self.initial_capital = initial_capital
         self.cash = initial_capital
         self.transaction_cost = transaction_cost
-        self.holdings = {}  # {'AAPL': 0, 'NVDA': 0}
-        self.history = []   # To track value over time
+        self.holdings = {}  
+        self.history = []   
 
     def run_backtest(self, price_df, signals_dict):
         """
         price_df: DataFrame with columns as tickers, index as dates
         signals_dict: Dictionary {ticker: signals_dataframe}
         """
-        # Initialize holdings to 0 for all tickers
+        
         for ticker in price_df.columns:
             self.holdings[ticker] = 0
 
-        # Loop through every day in the dataset
+        # Loop through every day 
         for date in price_df.index:
             daily_value = self.cash
             
             for ticker in price_df.columns:
                 current_price = price_df.loc[date, ticker]
                 
-                # Check if we have a signal for this day
+                # Check if signal in this day
                 if date in signals_dict[ticker].index:
                     signal = signals_dict[ticker].loc[date, 'positions']
                     
                     # BUY
                     if signal == 1.0:
-                        # Allocate portion of cash (e.g., split cash among available tickers)
-                        # Simplified: Buy with all available cash for that stock slot
-                        # Or simple logic: buy if we have cash
                         if self.cash > current_price + self.transaction_cost:
                             shares_to_buy = (self.cash * 0.2) // current_price # Invest 20% of cash
                             if shares_to_buy > 0:
