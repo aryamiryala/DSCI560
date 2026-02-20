@@ -7,6 +7,7 @@ from pdf2image import convert_from_path
 import pytesseract
 import pdfplumber
 import pandas as pd
+from normalize import normalize_api
 
 #data and extraction paths
 pdf_folder = Path("data/pdf_data")
@@ -16,8 +17,9 @@ ocr_folder.mkdir(parents=True, exist_ok=True)
 extracted_folder.parent.mkdir(parents=True, exist_ok=True)
 
 api_match = re.compile(r'\bAPI(?:\s*#|\:)?\s*[:\-\s]*([0-9\-]{6,20})', re.I)
-latitude_match = re.compile(r'Latitude[:\s]*([-+]?\d{1,3}\.\d+)', re.I)
-longitude_match = re.compile(r'Longitude[:\s]*([-+]?\d{1,3}\.\d+)', re.I)
+latitude_match = re.compile(r'(Latitude|Lat)[:\s]*([-+]?\d{1,3}\.\d+)', re.I)
+longitude_match = re.compile(r'(Longitude|Long)[:\s]*([-+]?\d{1,3}\.\d+)', re.I)
+
 coordinate_match = re.compile(r'(\d{1,3}°\s*\d{1,2}\'\s*\d{1,2}(?:\.\d+)?\")')
 
 #coverts the pdf into readable pdf to allow search
@@ -64,7 +66,8 @@ def parse_fields(text: str):
     #captures api number
     api_found = api_match.search(text)
     if api_found:
-        out['api'] = api_found.group(1).strip()
+        raw_api = api_found.group(1).strip()
+        out['api'] = normalize_api(raw_api)
     # lat/lon patterns
     lat_match = latitude_match.search(text)
     lon_match = longitude_match.search(text)
