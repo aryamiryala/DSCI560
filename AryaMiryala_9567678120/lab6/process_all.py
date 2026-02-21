@@ -1,6 +1,8 @@
 import json
 import re
 from web_scrape import get_well_data
+from normalize import normalize_api
+
 
 def parse_stimulation(text):
     # Search for "Acidized" or "Fracture" followed by a number and "gal" or "barrels"
@@ -23,6 +25,7 @@ def main():
         for line in f:
             pdf_data = json.loads(line)
             api = pdf_data.get('api')
+            api = normalize_api(api)
             
             if not api or api in seen_apis:
                 continue
