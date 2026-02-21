@@ -27,82 +27,75 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def search_well(driver, api):
-    api = normalize_api(api)
+    # Standardize the API (remove dashes for the search box)
+    api_clean = api.replace("-", "") 
+    
+    # Start at the base search page
+    driver.get("https://www.drillingedge.com/search")
+    wait = WebDriverWait(driver, 15)
 
-    url = (
-        f"https://www.drillingedge.com/search?type=wells"
-        f"&operator_name=&well_name=&api_no={api}"
-        f"&lease_key=&state=&county=&section=&township=&range="
-        f"&min_boe=&max_boe=&min_depth=&max_depth=&field_formation="
-    )
+    try:
+        # 1. Find the API input box and type the number
+        # (Assuming the input box has the name "api_no" based on the URL structure)
+        search_box = wait.until(EC.presence_of_element_located((By.NAME, "api_no")))
+        search_box.clear()
+        search_box.send_keys(api_clean)
 
-    driver.get(url)
+        # 2. Click the specific "Search Database" button you inspected
+        search_button = driver.find_element(By.XPATH, "//input[@type='submit' and @value='Search Database']")
+        search_button.click()
 
-    wait = WebDriverWait(driver, 10)
-
-    # wait for results table- seen w/ inspect element
-    wait.until(
-        EC.presence_of_element_located(
-            (By.CSS_SELECTOR, "table.interest_table tbody tr")
-        )
-    )
-
-    # grab the link inside the table
-    links = driver.find_elements(
-        By.CSS_SELECTOR,
-        "table.interest_table tbody tr td a"
-    )
-
-    if links:
-        return links[0].get_attribute("href")
-
-    return None
-
+        # 3. Wait for the results to load and grab the link to the well
+        link_xpath = "//table[contains(@class, 'interest_table')]//a[contains(@href, '/wells/')]"
+        well_link = wait.until(EC.presence_of_element_located((By.XPATH, link_xpath)))
+        
+        return well_link.get_attribute("href")
+        
+    except Exception as e:
+        print(f"Manual search simulation failed for {api}: {e}")
+        return None
+    
 def scrape_well_page(driver, url):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(3)
+    page_text = driver.find_element(By.TAG_NAME, "body").text
 
-    html = driver.page_source
-    data = {}
+    data = {
+        "well_name": "Unknown",
+        "well_status": "N/A",
+        "well_type": "N/A",
+        "closest_city": "N/A",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "barrels_oil": 0.0,
+        "barrels_gas": 0.0
+    }
 
-    #well name
-    try:
-        title_text = driver.find_element(By.TAG_NAME, "h1").text.strip()
-        clean_name = re.sub(r'\|\s*API.*', '', title_text).strip()
-        data["well_name"] = clean_name
-    except:
-        data["well_name"] = None
+    # 1. Resilient extraction using text offsets (Handles smashed text)
+    def get_val(header, end_trigger):
+        if header in page_text:
+            part = page_text.split(header)[-1].split(end_trigger)[0].strip()
+            return part
+        return "N/A"
 
-    rows = driver.find_elements(By.CSS_SELECTOR, "table.skinny tr")
+    data["well_name"] = get_val("Well Name", "API No.")
+    data["well_status"] = get_val("Well Status", "Well Type")
+    data["well_type"] = get_val("Well Type", "Township")
+    data["closest_city"] = get_val("Closest City", "Latitude")
+    
+    # 2. Extract Latitude and Longitude
+    coords = re.search(r'Latitude / Longitude\s*([-+]?\d+\.\d+),\s*([-+]?\d+\.\d+)', page_text)
+    if coords:
+        data["latitude"] = float(coords.group(1))
+        data["longitude"] = float(coords.group(2))
 
-    for row in rows:
-        headers = row.find_elements(By.TAG_NAME, "th")
-        cells = row.find_elements(By.TAG_NAME, "td")
+    # 3. Grabbing Monthly production (Bypassing paywall)
+    oil = re.search(r'([\d,]+)\s*Barrels of Oil', page_text)
+    gas = re.search(r'([\d,]+)\s*MCF of Gas', page_text)
+    data["barrels_oil"] = float(oil.group(1).replace(',', '')) if oil else 0.0
+    data["barrels_gas"] = float(gas.group(1).replace(',', '')) if gas else 0.0
 
-        # Match each header with corresponding cell
-        for i in range(min(len(headers), len(cells))):
-            label = headers[i].text.strip()
-            value = cells[i].text.strip()
-
-            if label == "Well Status":
-                data["well_status"] = value
-
-            elif label == "Well Type":
-                data["well_type"] = value
-
-            elif label == "Closest City":
-                data["closest_city"] = value
-
-            elif label == "Latitude / Longitude":
-                coords = value.split(",")
-                if len(coords) == 2:
-                    try:
-                        data["latitude"] = float(coords[0].strip())
-                        data["longitude"] = float(coords[1].strip())
-                    except:
-                        pass
     return data
-
 
 def get_well_data(api):
     driver = create_driver()

@@ -63,49 +63,28 @@ def tesseract_from_pdf(pdf_path: Path):
 #turns data into structured text
 def parse_fields(text: str):
     out = {}
-    #captures api number
+    # 1. Capture API (Resilient to OCR noise)
     api_found = api_match.search(text)
     if api_found:
-        raw_api = api_found.group(1).strip()
-        out['api'] = normalize_api(raw_api)
-    # lat/lon patterns
-    lat_match = latitude_match.search(text)
-    lon_match = longitude_match.search(text)
-    if lat_match:
-        out['latitude'] = float(lat_match.group(1))
-    if lon_match:
-        out['longitude'] = float(lon_match.group(1))
+        out['api'] = normalize_api(api_found.group(1).strip())
 
-    #name of the well
-    well = None
-    m = re.search(r'Well\s+Name[:\s\-]*(.+)', text, re.I)
-    if m:
-        well = m.group(1).splitlines()[0].strip()
-    else:
-        # fallback: first 3 words in document in uppercase style
-        lines = [l.strip() for l in text.splitlines() if l.strip()]
-        if lines:
-            candidate = lines[0]
-            if len(candidate.split()) <= 6:
-                well = candidate
-    if well:
-        #split name and number
-        out['well_name'] = well
-    # address
-    addr = None
-    m = re.search(r'Address[:\s\-]*(.+)', text, re.I)
-    if m:
-        addr = m.group(1).splitlines()[0].strip()
-        out['address'] = addr
-    # look for  "Stimulation" or "Stage"
-    stim_block = None
-    stim_start = re.search(r'(Stimul|Stimulation|Frac|Stage\s*1)', text, re.I)
-    if stim_start:
-        #take the next 2000 characters
-        idx = stim_start.start()
-        stim_block = text[idx: idx+2000]
-        out['stimulation_text'] = stim_block
-    # return raw
+    # 2. Resilient Well Name (Look for line after header)
+    name_match = re.search(r'Well Name and Number\s*\n\s*(.+)', text, re.I)
+    if name_match:
+        out['well_name'] = name_match.group(1).split('|')[0].strip()
+
+    # 3. New Stimulation Volume Parsing (Requirement: Volume)
+    # This looks for numbers followed by gal/barrels specifically near 'Acidized' or 'Material Used'
+    vol_pattern = r'(?:Acidized|Frac|Volume|Material Used)[\s\S]{0,100}?([\d,]{3,})\s*(?:gal|gallons|bbls|barrels)'
+    vol_match = re.search(vol_pattern, text, re.I)
+    out['stim_volume'] = float(vol_match.group(1).replace(',', '')) if vol_match else 0.0
+
+    # 4. New Proppant Parsing (Requirement: Total Lbs Proppant)
+    # Note: For these specific wells, this will likely be 0.0 as they used Acid, not Sand.
+    prop_pattern = r'(?:Proppant|Sand|Lbs|Prop)[\s\S]{0,50}?([\d,]{4,})\s*(?:lbs|pounds|#)'
+    prop_match = re.search(prop_pattern, text, re.I)
+    out['stim_proppant'] = float(prop_match.group(1).replace(',', '')) if prop_match else 0.0
+
     out['raw'] = text
     return out
 

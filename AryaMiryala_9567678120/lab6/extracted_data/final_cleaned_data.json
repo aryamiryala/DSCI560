@@ -1,0 +1,67 @@
+[
+    {
+        "api": "33-053-02102",
+        "well_name": "Basic Game And Fish 34-3",
+        "latitude": 48.097836,
+        "longitude": -103.645192,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 518.0,
+        "gas_prod": 518.0,
+        "stim_volume": 0.0,
+        "stim_proppant": 0.0
+    },
+    {
+        "api": "33053-02148",
+        "well_name": "Corps Of Engineers 31-10",
+        "latitude": 48.094925,
+        "longitude": -103.656644,
+        "status": "Plugged and Abandoned",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 64.0,
+        "gas_prod": 0.0,
+        "stim_volume": 0.0,
+        "stim_proppant": 0.0
+    },
+    {
+        "api": "33-053-03413-00-00",
+        "well_name": "Wade Federal 5300 21-30H",
+        "latitude": 48.047147,
+        "longitude": -103.6031,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 63.0,
+        "gas_prod": 12.0,
+        "stim_volume": 0.0,
+        "stim_proppant": 0.0
+    },
+    {
+        "api": "3305305924",
+        "well_name": "Chalmers 5301 44-24 2TR",
+        "latitude": 48.055866,
+        "longitude": -103.604903,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 275.0,
+        "gas_prod": 0.0,
+        "stim_volume": 0.0,
+        "stim_proppant": 0.0
+    },
+    {
+        "api": "33-053-03911",
+        "well_name": "Yukon 5301 41-12T",
+        "latitude": 48.082914,
+        "longitude": -103.622634,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 0.0,
+        "gas_prod": 0.0,
+        "stim_volume": 0.0,
+        "stim_proppant": 0.0
+    }
+]
