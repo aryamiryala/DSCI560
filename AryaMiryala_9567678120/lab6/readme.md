@@ -1,183 +1,104 @@
-# Setup & Run Instructions
+Oil Well Data Extraction & Visualization Pipeline
+Overview
+This project is an end-to-end data pipeline that extracts, normalizes, enriches, and visualizes oil well data from multiple sources. It processes unstructured, scanned PDF documents (Completion Reports) using Optical Character Recognition (OCR), merges that data with live geographic and production metadata scraped from the web, and stores the integrated dataset in a normalized MySQL database. Finally, it serves this data to an interactive, frontend Leaflet map.
 
-## Create and Activate Virtual Environment
+Project Structure & File Overview
+The codebase is modularized to separate heavy processing (OCR) from network-dependent tasks (Scraping) and database operations.
 
-```bash
-python3 -m venv venv
-```
+Data Extraction & Processing
+extract.py: The heavy-lifter. It loops through all scanned PDFs in data/pdf_data/, applies deskewing and OCR using ocrmypdf and pdfplumber (with a pytesseract fallback), and extracts the Universal API Number and Stimulation Volumes. It outputs raw checkpoints to extracted_data/extracted.jsonl.
 
-Activate the environment:
+normalize.py: A utility module containing the normalize_api() function. It ensures that regardless of OCR noise or formatting, all API numbers are strictly cleaned into the standard 10-digit North Dakota format (33-XXX-XXXXX).
 
-```bash
-source venv/bin/activate
-```
+web_scrape.py: The Selenium web-scraping module. It utilizes a headless Chrome WebDriver to search drillingedge.com by API number and extracts DOM-based metadata (Latitude, Longitude, Well Status, Well Type, Closest City, and Production Stats).
 
-This ensures all dependencies are installed in an isolated environment.
+process_all.py: The orchestrator script. It reads the extracted.jsonl file, normalizes the APIs, manages a single persistent Selenium browser session (via web_scrape.py) to fetch web data, and merges both sources into a final "Golden Dataset" saved as extracted_data/final_cleaned_data.json.
 
----
+Database Management
+schema.sql: The SQL script that initializes the dsci560_wells database and creates the relational wells and stimulation tables.
 
-## Install System Dependencies (macOS)
+insertsql.py: The database loader. It parses the final cleaned JSON file and performs an "UPSERT" (Insert or Update on Duplicate Key) into the MySQL database to prevent duplicate entries while capturing 1-to-many stimulation stages.
 
-These tools are required for OCR and PDF processing:
+Web Application & Visualization
+app.py: The Python Flask backend server. It connects to the MySQL database, joins the wells and stimulation tables, and serves the data as a JSON REST API endpoint (/api/wells). It also serves the frontend UI.
 
-```bash
+index.html: The frontend user interface. It utilizes Leaflet.js and MarkerCluster to render an interactive map. It dynamically plots well markers, color-codes them by well type, handles popup generation for detailed data inspection, and includes filtering/CSV export controls.
+
+wellvisualization.php: (Alternative Backend) A PHP script that serves the exact same purpose as the Flask /api/wells route. Can be used if deploying to a traditional LAMP stack instead of Python/Flask.
+
+Setup & Installation
+1. Install System Dependencies (macOS)
+These system-level tools are required for OCR and PDF processing. You will also need Google Chrome installed for the web scraper.
+
+Bash
 brew install ocrmypdf
 brew install tesseract
 brew install poppler
 brew install ghostscript
-```
+2. Create and Activate Virtual Environment
+Ensure all Python dependencies are installed in an isolated environment to prevent version conflicts.
 
----
-
-## Install Python Requirements
-
-After activating the virtual environment:
-
-```bash
+Bash
+python3 -m venv venv
+source venv/bin/activate
+3. Install Python Requirements
+Bash
 pip install -r requirements.txt
-```
+Database Setup
+Create the SQL Database schema before running the pipeline.
 
----
+Bash
+mysql -u root -p < schema.sql
+(If using an Ubuntu VM with socket authentication, you may need to run sudo mysql < schema.sql)
 
-# Database Setup
+This creates the dsci560_wells database containing the wells and stimulation tables.
 
-## Create the SQL Database
+Execution Pipeline
+Follow these steps in order to process the data from raw PDFs to the final web map.
 
-Run:
+Step 1: Extract Data from PDFs
+This step takes the longest as it performs image-to-text OCR on all PDFs.
 
-```bash
-mysql < schema.sql
-```
+Bash
+python3 extract.py
+Output: Generates extracted_data/extracted.jsonl.
 
-If using Ubuntu VM with socket authentication:
+Step 2: Web Scraping & Data Merging
+This script reads the JSONL, fires up a headless browser, scrapes missing metadata, and merges everything.
 
-```bash
-sudo mysql < schema.sql
-```
+Bash
+python3 process_all.py
+Output: Generates extracted_data/final_cleaned_data.json.
 
-This will create:
+Step 3: Insert Data into MySQL
+Populate your database with the cleaned, merged dataset.
 
-- `dsci560_wells` database
-- `wells` table
-- `stimulation` table
-
----
-
-# Data Extraction Pipeline
-
-## Extract Data from PDFs
-
-```bash
-python extract.py
-python web_scrape.py
-```
-
-What these scripts do:
-
-- `extract.py`
-  - Loops through all PDF files
-  - Converts scanned PDFs into readable text using OCR
-  - Extracts structured well data
-
-- `web_scrape.py`
-  - Uses API information extracted from PDFs
-  - Retrieves additional well data from external websites
-  - Enhances the dataset with missing information
-
----
-
-##  Process & Clean Data
-
-```bash
-python process_all.py
-```
-
-This script:
-
-- Combines extracted PDF data
-- Merges stimulation data
-- Cleans and structures the dataset
-- Outputs:
-
-```
-extracted_data/final_cleaned_data.json
-```
-
----
-
-#  Insert Data into MySQL
-
-Populate the database with:
-
-```bash
-python insertsql.py \
+Bash
+python3 insertsql.py \
   --file extracted_data/final_cleaned_data.json \
-  --user yourusername \
+  --user root \
   --password yourpassword \
   --commit
-```
+(Omit --password if your local root user does not require one).
 
-This script:
+Step 4: Start the Web Application
+Launch the Flask server to serve the frontend.
 
-- Reads cleaned JSON
-- Inserts well records into `wells`
-- Inserts stimulation data into `stimulation`
-- Prevents duplicate API entries
+Bash
+python3 app.py
+The terminal will output: Running on http://127.0.0.1:5000
 
----
+Using the Application
+Open your browser and navigate to http://127.0.0.1:5000/.
 
-# Run the Web Application
+Features Include:
 
-## Start the Flask Server
+Interactive Mapping: View all oil wells clustered dynamically by region.
 
-```bash
-python app.py
-```
+Detailed Popups: Click on any marker to view technical data, including API, location, production stats, and stimulation/frac stages.
 
-You should see:
+Raw Data Inspector: Expand the "Raw JSON" toggle inside any popup to view the raw scraped data structure.
 
-```
-Running on http://127.0.0.1:5000
-```
+Filtering: Use the control panel (top right) to filter wells by Status (Active/Plugged), minimum oil production, or search by API/Name.
 
----
-
-## Open in Browser
-
-Navigate to:
-
-```
-http://127.0.0.1:5000/
-```
-
----
-
-# Using the Application
-
-Once loaded, you can:
-
-- View all oil wells on an interactive map
-- Hover or click markers for detailed well information
-- Search wells by API number
-- Filter wells based on production data
-- View stimulation data in popups
-
----
-
-# Complete Pipeline Overview
-
-```
-PDF Files
-   ↓
-extract.py (OCR + text extraction)
-   ↓
-web_scrape.py (additional data enrichment)
-   ↓
-process_all.py (clean & combine JSON)
-   ↓
-insertsql.py (populate MySQL)
-   ↓
-Flask API (app.py)
-   ↓
-Leaflet Web Map Visualization
-```
+CSV Export: Click the green "Export CSV" button to download a spreadsheet of the currently visible (filtered) wells on your map.
