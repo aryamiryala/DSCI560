@@ -14,17 +14,17 @@ The codebase is modularized to separate heavy processing (OCR) from network-depe
 
 | File | Description |
 |------|-------------|
-| `extract.py` | The heavy-lifter. Loops through all scanned PDFs in `data/pdf_data/`, applies deskewing and OCR using `ocrmypdf` and `pdfplumber` (with a `pytesseract` fallback), and extracts the Universal API Number and Stimulation Volumes. Outputs raw checkpoints to `extracted_data/extracted.jsonl`. |
+| `extract.py` | Loops through all scanned PDFs in `data/pdf_data/`, applies deskewing and OCR using `ocrmypdf` and `pdfplumber` (with a `pytesseract` fallback), and extracts the Universal API Number and Stimulation Volumes. Outputs raw checkpoints to `extracted_data/extracted.jsonl`. |
 | `normalize.py` | A utility module containing the `normalize_api()` function. Ensures all API numbers are strictly cleaned into the standard 10-digit North Dakota format (`33-XXX-XXXXX`), regardless of OCR noise or formatting. |
 | `web_scrape.py` | The Selenium web-scraping module. Utilizes a headless Chrome WebDriver to search `drillingedge.com` by API number and extracts DOM-based metadata (Latitude, Longitude, Well Status, Well Type, Closest City, and Production Stats). |
-| `process_all.py` | The orchestrator script. Reads `extracted.jsonl`, normalizes the APIs, manages a single persistent Selenium browser session to fetch web data, and merges both sources into a final "Golden Dataset" saved as `extracted_data/final_cleaned_data.json`. |
+| `process_all.py` | Reads `extracted.jsonl`, normalizes the APIs, manages a single persistent Selenium browser session to fetch web data, and merges both sources into a final "Golden Dataset" saved as `extracted_data/final_cleaned_data.json`. |
 
 ### Database Management
 
 | File | Description |
 |------|-------------|
 | `schema.sql` | The SQL script that initializes the `dsci560_wells` database and creates the relational `wells` and `stimulation` tables. |
-| `insertsql.py` | The database loader. Parses the final cleaned JSON file and performs an "UPSERT" (Insert or Update on Duplicate Key) into MySQL to prevent duplicate entries while capturing 1-to-many stimulation stages. |
+| `insertsql.py` | Parses the final cleaned JSON file and performs an "UPSERT" (Insert or Update on Duplicate Key) into MySQL to prevent duplicate entries while capturing 1-to-many stimulation stages. |
 
 ### Web Application & Visualization
 
@@ -38,26 +38,27 @@ The codebase is modularized to separate heavy processing (OCR) from network-depe
 
 ## Setup & Installation
 
-### 1. Install System Dependencies (macOS)
+### 1. Install System Dependencies
 
 These system-level tools are required for OCR and PDF processing. Google Chrome must also be installed for the web scraper.
-
 ```bash
-brew install ocrmypdf
-brew install tesseract
-brew install poppler
-brew install ghostscript
+sudo apt-get update
+sudo apt-get install -y ocrmypdf tesseract-ocr poppler-utils ghostscript
+```
+
+**Install Google Chrome for Selenium:**
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
 ```
 
 ### 2. Create and Activate a Virtual Environment
-
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 ### 3. Install Python Requirements
-
 ```bash
 pip install -r requirements.txt
 ```
@@ -67,15 +68,13 @@ pip install -r requirements.txt
 ## Database Setup
 
 Create the SQL database schema before running the pipeline.
-
 ```bash
-mysql -u root -p < schema.sql
+sudo mysql < schema.sql
 ```
 
-> **Note:** If using an Ubuntu VM with socket authentication, run `sudo mysql < schema.sql` instead.
+> **Note:** If your MySQL user requires a password, run `mysql -u root -p < schema.sql` instead.
 
 This creates the `dsci560_wells` database containing the `wells` and `stimulation` tables.
-
 ---
 
 ## Execution Pipeline
