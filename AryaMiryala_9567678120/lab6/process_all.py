@@ -52,7 +52,7 @@ def main():
             
             final_results.append(clean_entry)
 
-    with open('final_cleaned_data.json', 'w') as f:
+    with open('extracted_data/final_cleaned_data.json', 'w') as f:
         json.dump(final_results, f, indent=4)
     print("\nDone! Full unique data set ready.")
 

@@ -37,7 +37,6 @@ def ocrpdf(input_pdf: Path, output_pdf: Path):
 
 #extract text
 def pdf_text(pdf_path: Path):
-    #empty string in case no text is extracted
     text = ""
     try:
         #open pdf and extract text into a big string
@@ -51,7 +50,6 @@ def pdf_text(pdf_path: Path):
 
 #incase plumber fails, convert to image and run tesseract
 def tesseract_from_pdf(pdf_path: Path):
-    # convert pages to images and run pytesseract
     text = ""
     images = convert_from_path(str(pdf_path), dpi=300)
     for i, img in enumerate(images):
@@ -63,29 +61,29 @@ def tesseract_from_pdf(pdf_path: Path):
 #turns data into structured text
 def parse_fields(text: str):
     out = {}
-    # 1. Capture API (Resilient to OCR noise)
-    api_found = api_match.search(text)
+    
+    # 1. 
+    # Looks for "33" (ND), followed by any 3-digit county code, then the 5-digit well ID
+    api_pattern = r'([3][3][-\s]?\d{3}[-\s]?\d{5})'
+    api_found = re.search(api_pattern, text)
     if api_found:
         out['api'] = normalize_api(api_found.group(1).strip())
+    else:
+        out['api'] = None
 
-    # 2. Resilient Well Name (Look for line after header)
-    name_match = re.search(r'Well Name and Number\s*\n\s*(.+)', text, re.I)
-    if name_match:
-        out['well_name'] = name_match.group(1).split('|')[0].strip()
+    # get name from scraping web scrape
+    out['well_name'] = "Pending Web Scrape"
 
-    # 3. New Stimulation Volume Parsing (Requirement: Volume)
-    # This looks for numbers followed by gal/barrels specifically near 'Acidized' or 'Material Used'
+    # stim volume
     vol_pattern = r'(?:Acidized|Frac|Volume|Material Used)[\s\S]{0,100}?([\d,]{3,})\s*(?:gal|gallons|bbls|barrels)'
     vol_match = re.search(vol_pattern, text, re.I)
     out['stim_volume'] = float(vol_match.group(1).replace(',', '')) if vol_match else 0.0
 
-    # 4. New Proppant Parsing (Requirement: Total Lbs Proppant)
-    # Note: For these specific wells, this will likely be 0.0 as they used Acid, not Sand.
+    # proppant
     prop_pattern = r'(?:Proppant|Sand|Lbs|Prop)[\s\S]{0,50}?([\d,]{4,})\s*(?:lbs|pounds|#)'
     prop_match = re.search(prop_pattern, text, re.I)
     out['stim_proppant'] = float(prop_match.group(1).replace(',', '')) if prop_match else 0.0
 
-    out['raw'] = text
     return out
 
 def main():
