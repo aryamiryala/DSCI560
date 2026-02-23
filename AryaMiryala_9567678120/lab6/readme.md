@@ -134,10 +134,6 @@ Open your browser and navigate to: http://<IP_ADDRESS>/
 
 ---
 
-## Using the Application
-
-Open your browser and navigate to **[http://127.0.0.1:5000/](http://127.0.0.1:5000/)**.
-
 ### Features
 
 - **Interactive Mapping** — View all oil wells clustered dynamically by region.
