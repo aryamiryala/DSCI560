@@ -1,8 +1,8 @@
 import json
 import re
-from web_scrape import get_well_data
+from web_scrape import get_well_data, create_driver
 from normalize import normalize_api
-
+import time
 
 def parse_stimulation(text):
     # Search for "Acidized" or "Fracture" followed by a number and "gal" or "barrels"
@@ -17,44 +17,51 @@ def parse_stimulation(text):
     
     return volume, proppant
 
+
 def main():
     final_results = []
-    seen_apis = set() # Requirement: Prevent Duplicate Primary Keys
-    
-    with open('extracted_data/extracted.jsonl', 'r') as f:
-        for line in f:
-            pdf_data = json.loads(line)
-            api = pdf_data.get('api')
-            api = normalize_api(api)
-            
-            if not api or api in seen_apis:
-                continue
-            
-            seen_apis.add(api)
-            print(f"--- Processing {api} ---")
-            
-            # Fetch structured data from web (Coordinates, Status, etc.)
-            web_data = get_well_data(api) or {}
-            
-            clean_entry = {
-                "api": api,
-                "well_name": web_data.get("well_name") or pdf_data.get("well_name"),
-                "latitude": web_data.get("latitude") or 0.0,
-                "longitude": web_data.get("longitude") or 0.0,
-                "status": web_data.get("well_status", "N/A"),
-                "well_type": web_data.get("well_type", "N/A"),
-                "closest_city": web_data.get("closest_city", "N/A"),
-                "oil_prod": web_data.get("barrels_oil", 0.0),
-                "gas_prod": web_data.get("barrels_gas", 0.0),
-                "stim_volume": pdf_data.get("stim_volume", 0.0), # From our updated extract.py
-                "stim_proppant": pdf_data.get("stim_proppant", 0.0)
-            }
-            
-            final_results.append(clean_entry)
+    seen_apis = set()
+
+    driver = create_driver()  # create once
+
+    try:
+        with open('extracted_data/extracted.jsonl', 'r') as f:
+            for line in f:
+                pdf_data = json.loads(line)
+                api = pdf_data.get('api')
+                api = normalize_api(api)
+
+                if not api or api in seen_apis:
+                    continue
+
+                seen_apis.add(api)
+                print(f"--- Processing {api} ---")
+
+                web_data = get_well_data(api, driver) or {}  # pass driver in
+
+                clean_entry = {
+                    "api": api,
+                    "well_name": web_data.get("well_name") or pdf_data.get("well_name"),
+                    "latitude": web_data.get("latitude") or 0.0,
+                    "longitude": web_data.get("longitude") or 0.0,
+                    "status": web_data.get("well_status", "N/A"),
+                    "well_type": web_data.get("well_type", "N/A"),
+                    "closest_city": web_data.get("closest_city", "N/A"),
+                    "oil_prod": web_data.get("barrels_oil", 0.0),
+                    "gas_prod": web_data.get("barrels_gas", 0.0),
+                    "stim_volume": pdf_data.get("stim_volume", 0.0),
+                    "stim_proppant": pdf_data.get("stim_proppant", 0.0)
+                }
+
+                final_results.append(clean_entry)
+                time.sleep(2)  # be polite to the server between requests
+
+    finally:
+        driver.quit()  # quit once at the end
 
     with open('extracted_data/final_cleaned_data.json', 'w') as f:
         json.dump(final_results, f, indent=4)
-    print("\nDone! Full unique data set ready.")
+    print("\nDone!")
 
 if __name__ == "__main__":
     main()

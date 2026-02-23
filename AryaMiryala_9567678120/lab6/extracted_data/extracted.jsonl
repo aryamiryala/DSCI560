@@ -1,10 +1,77 @@
-{"api": "33-053-02102", "well_name": "Pending Web Scrape", "stim_volume": 7500.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W11745.pdf"}
-{"api": "33-053-02148", "well_name": "Pending Web Scrape", "stim_volume": 7000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W11920.pdf"}
-{"api": "33-053-02556", "well_name": "Pending Web Scrape", "stim_volume": 12000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W15358.pdf"}
-{"api": "33-053-03413", "well_name": "Pending Web Scrape", "stim_volume": 76768.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20197.pdf"}
-{"api": "33-053-05924", "well_name": "Pending Web Scrape", "stim_volume": 74826.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20407.pdf"}
-{"api": "33-053-03608", "well_name": "Pending Web Scrape", "stim_volume": 74475.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20863.pdf"}
-{"api": "33-105-04981", "well_name": "Pending Web Scrape", "stim_volume": 86805.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20864.pdf"}
-{"api": "33-105-00822", "well_name": "Pending Web Scrape", "stim_volume": 1822380.0, "stim_proppant": 999800.0, "source_pdf": "data/pdf_data/W21266.pdf"}
-{"api": "33-105-00822", "well_name": "Pending Web Scrape", "stim_volume": 77312.0, "stim_proppant": 97400.0, "source_pdf": "data/pdf_data/W21796.pdf"}
-{"api": "33-142-11970", "well_name": "Pending Web Scrape", "stim_volume": 100130.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22099.pdf"}
+{"api": "33-053-02102", "ndic_file_number": "11745", "well_name": "Pending Web Scrape", "stim_volume": 7500.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W11745.pdf"}
+{"api": "33-053-02148", "ndic_file_number": "11920", "well_name": "Pending Web Scrape", "stim_volume": 7000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W11920.pdf"}
+{"api": "33-053-02556", "ndic_file_number": "15358", "well_name": "Pending Web Scrape", "stim_volume": 12000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W15358.pdf"}
+{"api": "33-053-03413", "ndic_file_number": "20197", "well_name": "Pending Web Scrape", "stim_volume": 76768.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20197.pdf"}
+{"api": "33-053-05924", "ndic_file_number": "20407", "well_name": "Pending Web Scrape", "stim_volume": 74826.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20407.pdf"}
+{"api": "33-053-03608", "ndic_file_number": "20863", "well_name": "Pending Web Scrape", "stim_volume": 74475.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20863.pdf"}
+{"api": "33-105-04981", "ndic_file_number": "20864", "well_name": "Pending Web Scrape", "stim_volume": 86805.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W20864.pdf"}
+{"api": "33-053-03703", "ndic_file_number": "21266", "well_name": "Pending Web Scrape", "stim_volume": 1822380.0, "stim_proppant": 999800.0, "source_pdf": "data/pdf_data/W21266.pdf"}
+{"api": "33-053-03846", "ndic_file_number": "20863", "well_name": "Pending Web Scrape", "stim_volume": 77312.0, "stim_proppant": 97400.0, "source_pdf": "data/pdf_data/W21796.pdf"}
+{"api": "33-105-04981", "ndic_file_number": "22099", "well_name": "Pending Web Scrape", "stim_volume": 100130.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22099.pdf"}
+{"api": "33-105-04981", "ndic_file_number": "22220", "well_name": "Pending Web Scrape", "stim_volume": 83063.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22220.pdf"}
+{"api": "33-105-04981", "ndic_file_number": "22221", "well_name": "Pending Web Scrape", "stim_volume": 90354.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22221.pdf"}
+{"api": "33-053-03943", "ndic_file_number": "22247", "well_name": "Pending Web Scrape", "stim_volume": 0.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22247.pdf"}
+{"api": "33-053-03944", "ndic_file_number": "21250", "well_name": "Pending Web Scrape", "stim_volume": 22133.0, "stim_proppant": 182669.0, "source_pdf": "data/pdf_data/W22249.pdf"}
+{"api": "33-053-04069", "ndic_file_number": "22731", "well_name": "Pending Web Scrape", "stim_volume": 40332.0, "stim_proppant": 3310858.0, "source_pdf": "data/pdf_data/W22731.pdf"}
+{"api": "33-105-04981", "ndic_file_number": "22740", "well_name": "Pending Web Scrape", "stim_volume": 80480.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W22740.pdf"}
+{"api": "33-053-04211", "ndic_file_number": "23230", "well_name": "Pending Web Scrape", "stim_volume": 92216.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W23230.pdf"}
+{"api": "33-105-02719", "ndic_file_number": "23359", "well_name": "Pending Web Scrape", "stim_volume": 51087.0, "stim_proppant": 819563.0, "source_pdf": "data/pdf_data/W23359.pdf"}
+{"api": "33-105-02720", "ndic_file_number": "23360", "well_name": "Pending Web Scrape", "stim_volume": 47452.0, "stim_proppant": 862147.0, "source_pdf": "data/pdf_data/W23360.pdf"}
+{"api": "33-105-02721", "ndic_file_number": "23361", "well_name": "Pending Web Scrape", "stim_volume": 53948.0, "stim_proppant": 127023.0, "source_pdf": "data/pdf_data/W23361.pdf"}
+{"api": "33-105-02722", "ndic_file_number": "23362", "well_name": "Pending Web Scrape", "stim_volume": 0.0, "stim_proppant": 948104.0, "source_pdf": "data/pdf_data/W23362.pdf"}
+{"api": "33-105-02723", "ndic_file_number": "23363", "well_name": "Pending Web Scrape", "stim_volume": 58554.0, "stim_proppant": 139087.0, "source_pdf": "data/pdf_data/W23363.pdf"}
+{"api": "33-105-02724", "ndic_file_number": "23364", "well_name": "Pending Web Scrape", "stim_volume": 59949.0, "stim_proppant": 158561.0, "source_pdf": "data/pdf_data/W23364.pdf"}
+{"api": "33-105-02725", "ndic_file_number": "23365", "well_name": "Pending Web Scrape", "stim_volume": 72511.0, "stim_proppant": 986870.0, "source_pdf": "data/pdf_data/W23365.pdf"}
+{"api": "33-105-02726", "ndic_file_number": "23366", "well_name": "Pending Web Scrape", "stim_volume": 62806.0, "stim_proppant": 1351653.0, "source_pdf": "data/pdf_data/W23366.pdf"}
+{"api": "33-105-02727", "ndic_file_number": "23367", "well_name": "Pending Web Scrape", "stim_volume": 64611.0, "stim_proppant": 1068044.0, "source_pdf": "data/pdf_data/W23367.pdf"}
+{"api": "33-105-02728", "ndic_file_number": "23368", "well_name": "Pending Web Scrape", "stim_volume": 71324.0, "stim_proppant": 1128702.0, "source_pdf": "data/pdf_data/W23368.pdf"}
+{"api": "33-105-02729", "ndic_file_number": "23369", "well_name": "Pending Web Scrape", "stim_volume": 51878.0, "stim_proppant": 2230502.0, "source_pdf": "data/pdf_data/W23369.pdf"}
+{"api": "33-105-02730", "ndic_file_number": "23370", "well_name": "Pending Web Scrape", "stim_volume": 44335.0, "stim_proppant": 2251322.0, "source_pdf": "data/pdf_data/W23370.pdf"}
+{"api": "33-105-02731", "ndic_file_number": "23371", "well_name": "Pending Web Scrape", "stim_volume": 45855.0, "stim_proppant": 2056996.0, "source_pdf": "data/pdf_data/W23371.pdf"}
+{"api": "33-105-02732", "ndic_file_number": "23372", "well_name": "Pending Web Scrape", "stim_volume": 44056.0, "stim_proppant": 2138057.0, "source_pdf": "data/pdf_data/W23372.pdf"}
+{"api": "33-053-04852", "ndic_file_number": "12306", "well_name": "Pending Web Scrape", "stim_volume": 48693.0, "stim_proppant": 156552.0, "source_pdf": "data/pdf_data/W25156.pdf"}
+{"api": "33-053-04853", "ndic_file_number": "12306", "well_name": "Pending Web Scrape", "stim_volume": 64952.0, "stim_proppant": 89291.0, "source_pdf": "data/pdf_data/W25157.pdf"}
+{"api": "33-053-04854", "ndic_file_number": "25158", "well_name": "Pending Web Scrape", "stim_volume": 56607.0, "stim_proppant": 2150603.0, "source_pdf": "data/pdf_data/W25158.pdf"}
+{"api": "33-053-04855", "ndic_file_number": "25159", "well_name": "Pending Web Scrape", "stim_volume": 85599.0, "stim_proppant": 305478.0, "source_pdf": "data/pdf_data/W25159.pdf"}
+{"api": "33-053-04856", "ndic_file_number": "12306", "well_name": "Pending Web Scrape", "stim_volume": 74589.0, "stim_proppant": 285982.0, "source_pdf": "data/pdf_data/W25160.pdf"}
+{"api": "33-053-04981", "ndic_file_number": "25571", "well_name": "Pending Web Scrape", "stim_volume": 95801.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W25571.pdf"}
+{"api": "33-053-05845", "ndic_file_number": "28190", "well_name": "Pending Web Scrape", "stim_volume": 311394.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28190.pdf"}
+{"api": "33-053-05849", "ndic_file_number": "28194", "well_name": "Pending Web Scrape", "stim_volume": 0.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28194.pdf"}
+{"api": "33-053-05906", "ndic_file_number": "28303", "well_name": "Pending Web Scrape", "stim_volume": 123705.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28303.pdf"}
+{"api": "33-053-05924", "ndic_file_number": "28342", "well_name": "Pending Web Scrape", "stim_volume": 207943.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28342.pdf"}
+{"api": "33-053-05943", "ndic_file_number": "28394", "well_name": "Pending Web Scrape", "stim_volume": 238848.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28394.pdf"}
+{"api": "33-053-05954", "ndic_file_number": "28425", "well_name": "Pending Web Scrape", "stim_volume": 188339.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28425.pdf"}
+{"api": "33-053-05995", "ndic_file_number": "28554", "well_name": "Pending Web Scrape", "stim_volume": 215747.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28554.pdf"}
+{"api": "33-053-05998", "ndic_file_number": "28557", "well_name": "Pending Web Scrape", "stim_volume": 134353.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28557.pdf"}
+{"api": "33-053-05924", "ndic_file_number": "28599", "well_name": "Pending Web Scrape", "stim_volume": 206015.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28599.pdf"}
+{"api": "33-053-05924", "ndic_file_number": "28600", "well_name": "Pending Web Scrape", "stim_volume": 98038.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28600.pdf"}
+{"api": "33-053-06012", "ndic_file_number": "20314", "well_name": "Pending Web Scrape", "stim_volume": 95600.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28601.pdf"}
+{"api": "33-053-06018", "ndic_file_number": "28633", "well_name": "Pending Web Scrape", "stim_volume": 206323.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28633.pdf"}
+{"api": "33-053-06019", "ndic_file_number": "28634", "well_name": "Pending Web Scrape", "stim_volume": 223578.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28634.pdf"}
+{"api": "33-053-06021", "ndic_file_number": "28636", "well_name": "Pending Web Scrape", "stim_volume": 96178.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28636.pdf"}
+{"api": "33-053-06022", "ndic_file_number": "28637", "well_name": "Pending Web Scrape", "stim_volume": 214367.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28637.pdf"}
+{"api": "33-053-06023", "ndic_file_number": "28648", "well_name": "Pending Web Scrape", "stim_volume": 215116.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28648.pdf"}
+{"api": "33-053-06024", "ndic_file_number": "28649", "well_name": "Pending Web Scrape", "stim_volume": 209363.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28649.pdf"}
+{"api": "33-053-06025", "ndic_file_number": "28651", "well_name": "Pending Web Scrape", "stim_volume": 170347.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28651.pdf"}
+{"api": "33-053-06026", "ndic_file_number": "28652", "well_name": "Pending Web Scrape", "stim_volume": 192526.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28652.pdf"}
+{"api": "33-053-06028", "ndic_file_number": "28654", "well_name": "Pending Web Scrape", "stim_volume": 126978.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28654.pdf"}
+{"api": "33-053-06029", "ndic_file_number": "28655", "well_name": "Pending Web Scrape", "stim_volume": 214895.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28655.pdf"}
+{"api": "33-053-06030", "ndic_file_number": "28658", "well_name": "Pending Web Scrape", "stim_volume": 186133.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28658.pdf"}
+{"api": "33-053-06051", "ndic_file_number": "28744", "well_name": "Pending Web Scrape", "stim_volume": 171968.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28744.pdf"}
+{"api": "33-053-00605", "ndic_file_number": "28754", "well_name": "Pending Web Scrape", "stim_volume": 19114.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28754.pdf"}
+{"api": "33-053-06056", "ndic_file_number": "28755", "well_name": "Pending Web Scrape", "stim_volume": 10330.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28755.pdf"}
+{"api": "33-053-06057", "ndic_file_number": "28756", "well_name": "Pending Web Scrape", "stim_volume": 220489.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28756.pdf"}
+{"api": "33-053-06129", "ndic_file_number": "28976", "well_name": "Pending Web Scrape", "stim_volume": 190732.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28976.pdf"}
+{"api": "33-053-06131", "ndic_file_number": "28976", "well_name": "Pending Web Scrape", "stim_volume": 0.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W28978.pdf"}
+{"api": "33-053-06223", "ndic_file_number": "29242", "well_name": "Pending Web Scrape", "stim_volume": 209044.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W29242.pdf"}
+{"api": "33-053-06225", "ndic_file_number": "29244", "well_name": "Pending Web Scrape", "stim_volume": 208220.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W29244.pdf"}
+{"api": "33-053-06231", "ndic_file_number": "29316", "well_name": "Pending Web Scrape", "stim_volume": 168692.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W29316.pdf"}
+{"api": "33-053-06232", "ndic_file_number": "20314", "well_name": "Pending Web Scrape", "stim_volume": 170334.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W29317.pdf"}
+{"api": "33-053-06243", "ndic_file_number": "29334", "well_name": "Pending Web Scrape", "stim_volume": 209640.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W29334.pdf"}
+{"api": "33-053-06548", "ndic_file_number": "30188", "well_name": "Pending Web Scrape", "stim_volume": 329963.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W30188.pdf"}
+{"api": "33-053-06549", "ndic_file_number": "30189", "well_name": "Pending Web Scrape", "stim_volume": 305814.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W30189.pdf"}
+{"api": "33-053-06755", "ndic_file_number": "30789", "well_name": "Pending Web Scrape", "stim_volume": 13837.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W30789.pdf"}
+{"api": "33-053-08946", "ndic_file_number": "36047", "well_name": "Pending Web Scrape", "stim_volume": 0.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W36047.pdf"}
+{"api": "33-053-90244", "ndic_file_number": "90244", "well_name": "Pending Web Scrape", "stim_volume": 9000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W90244.pdf"}
+{"api": "33-105-07848", "ndic_file_number": "90258", "well_name": "Pending Web Scrape", "stim_volume": 6000.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W90258.pdf"}
+{"api": "33-053-90329", "ndic_file_number": "90329", "well_name": "Pending Web Scrape", "stim_volume": 402.0, "stim_proppant": 0.0, "source_pdf": "data/pdf_data/W90329.pdf"}

@@ -26,6 +26,19 @@
         "stim_proppant": 0.0
     },
     {
+        "api": "33-053-02556",
+        "well_name": "Lewis And Clark 2-4H",
+        "latitude": 48.104997,
+        "longitude": -103.670242,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 537.0,
+        "gas_prod": 537.0,
+        "stim_volume": 12000.0,
+        "stim_proppant": 0.0
+    },
+    {
         "api": "33-053-03413",
         "well_name": "Wade Federal 5300 21-30H",
         "latitude": 48.047147,
@@ -52,17 +65,56 @@
         "stim_proppant": 0.0
     },
     {
-        "api": "33-053-03911",
-        "well_name": "Yukon 5301 41-12T",
-        "latitude": 48.082914,
-        "longitude": -103.622634,
+        "api": "33-053-03608",
+        "well_name": "Foley Federal 5301 43-12H",
+        "latitude": 48.08269,
+        "longitude": -103.611486,
         "status": "Active",
         "well_type": "Oil & Gas",
         "closest_city": "Williston",
         "oil_prod": 0.0,
         "gas_prod": 0.0,
+        "stim_volume": 74475.0,
+        "stim_proppant": 0.0
+    },
+    {
+        "api": "33-105-04981",
+        "well_name": "Jackman 34-11-3TFH",
+        "latitude": 48.343789,
+        "longitude": -103.50343,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Springbrook",
+        "oil_prod": 777.0,
+        "gas_prod": 0.0,
         "stim_volume": 86805.0,
         "stim_proppant": 0.0
+    },
+    {
+        "api": "33-053-03703",
+        "well_name": "Dahl Federal 15-11H",
+        "latitude": 48.082328,
+        "longitude": -103.635729,
+        "status": "Plugged and Abandoned",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 0.0,
+        "gas_prod": 0.0,
+        "stim_volume": 1822380.0,
+        "stim_proppant": 999800.0
+    },
+    {
+        "api": "33-053-03846",
+        "well_name": "Dahl Federal 2-15H",
+        "latitude": 48.080324,
+        "longitude": -103.655498,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 0.0,
+        "gas_prod": 0.0,
+        "stim_volume": 77312.0,
+        "stim_proppant": 97400.0
     },
     {
         "api": "33-053-03943",
@@ -310,6 +362,58 @@
         "gas_prod": 0.0,
         "stim_volume": 48693.0,
         "stim_proppant": 156552.0
+    },
+    {
+        "api": "33-053-04853",
+        "well_name": "Tallahassee 3-16H",
+        "latitude": 48.075131,
+        "longitude": -103.669967,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 389.0,
+        "gas_prod": 419.0,
+        "stim_volume": 64952.0,
+        "stim_proppant": 89291.0
+    },
+    {
+        "api": "33-053-04854",
+        "well_name": "Tallahassee 2-16H",
+        "latitude": 48.075235,
+        "longitude": -103.669874,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 277.0,
+        "gas_prod": 0.0,
+        "stim_volume": 56607.0,
+        "stim_proppant": 2150603.0
+    },
+    {
+        "api": "33-053-04855",
+        "well_name": "Columbus Federal 2-16H",
+        "latitude": 48.075342,
+        "longitude": -103.66978,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 815.0,
+        "gas_prod": 0.0,
+        "stim_volume": 85599.0,
+        "stim_proppant": 305478.0
+    },
+    {
+        "api": "33-053-04856",
+        "well_name": "Columbus Federal 3-16H",
+        "latitude": 48.075449,
+        "longitude": -103.669687,
+        "status": "Active",
+        "well_type": "Oil & Gas",
+        "closest_city": "Williston",
+        "oil_prod": 570.0,
+        "gas_prod": 702.0,
+        "stim_volume": 74589.0,
+        "stim_proppant": 285982.0
     },
     {
         "api": "33-053-04981",
@@ -781,7 +885,7 @@
     },
     {
         "api": "33-105-07848",
-        "well_name": null,
+        "well_name": "Pending Web Scrape",
         "latitude": 0.0,
         "longitude": 0.0,
         "status": "N/A",

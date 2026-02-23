@@ -97,20 +97,18 @@ def scrape_well_page(driver, url):
 
     return data
 
-def get_well_data(api):
-    driver = create_driver()
+def get_well_data(api, driver):  # accept driver instead of creating one
     try:
         well_url = search_well(driver, api)
         if not well_url:
             print("No well found")
             return None
-
         print("Scraping:", well_url)
         data = scrape_well_page(driver, well_url)
         return data
-
-    finally:
-        driver.quit()
+    except Exception as e:
+        print(f"Error scraping {api}: {e}")
+        return None
 
 
 if __name__ == "__main__":
