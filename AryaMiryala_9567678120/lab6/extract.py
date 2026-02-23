@@ -61,25 +61,50 @@ def tesseract_from_pdf(pdf_path: Path):
 #turns data into structured text
 def parse_fields(text: str):
     out = {}
-    
-    # 1. 
-    # Looks for "33" (ND), followed by any 3-digit county code, then the 5-digit well ID
-    api_pattern = r'([3][3][-\s]?\d{3}[-\s]?\d{5})'
-    api_found = re.search(api_pattern, text)
-    if api_found:
-        out['api'] = normalize_api(api_found.group(1).strip())
+
+    # --- API Extraction (3-strategy cascade) ---
+
+    # Strategy 1: Explicitly labeled API - most reliable, avoids false matches
+    # Handles: "API NUMBER 33-053-04854", "API# 33-053-06023", "API: 33-053-06023"
+    api_labeled = re.search(
+        r'API\s*(?:NUMBER|No\.?|#)?\s*[:\s]+\s*(33[-\s]?\d{3}[-\s]?\d{5}(?:[-\s]?\d{2})?)',
+        text, re.I
+    )
+
+    # Strategy 2: Bare ND API pattern anywhere in document
+    api_bare = re.search(
+        r'\b(33[-\s]\d{3}[-\s]\d{5}(?:[-\s]\d{2})?)\b',
+        text
+    )
+
+    # Strategy 3: NDIC File Number fallback when no API found in text at all
+    ndic_match = re.search(r'NDIC\s+File\s+(?:Number|No\.?)\s*[:\s]+(\d{4,6})', text, re.I)
+    file_no_match = re.search(r'(?:Well\s+)?File\s+No\.?\s*[:\s]*(\d{4,6})', text, re.I)
+
+    if api_labeled:
+        out['api'] = normalize_api(api_labeled.group(1).strip())
+    elif api_bare:
+        out['api'] = normalize_api(api_bare.group(1).strip())
     else:
         out['api'] = None
 
-    # get name from scraping web scrape
+    # Always grab NDIC number as backup for web scraping step
+    if ndic_match:
+        out['ndic_file_number'] = ndic_match.group(1).strip()
+    elif file_no_match:
+        out['ndic_file_number'] = file_no_match.group(1).strip()
+    else:
+        out['ndic_file_number'] = None
+
+    # well name fetched via web scrape
     out['well_name'] = "Pending Web Scrape"
 
-    # stim volume
+    # stim volume (your original logic)
     vol_pattern = r'(?:Acidized|Frac|Volume|Material Used)[\s\S]{0,100}?([\d,]{3,})\s*(?:gal|gallons|bbls|barrels)'
     vol_match = re.search(vol_pattern, text, re.I)
     out['stim_volume'] = float(vol_match.group(1).replace(',', '')) if vol_match else 0.0
 
-    # proppant
+    # stim proppant (your original logic)
     prop_pattern = r'(?:Proppant|Sand|Lbs|Prop)[\s\S]{0,50}?([\d,]{4,})\s*(?:lbs|pounds|#)'
     prop_match = re.search(prop_pattern, text, re.I)
     out['stim_proppant'] = float(prop_match.group(1).replace(',', '')) if prop_match else 0.0
@@ -88,7 +113,7 @@ def parse_fields(text: str):
 
 def main():
     results = []
-    pdf_files = sorted(pdf_folder.glob("*.pdf"))[:10] #start testing with 10 first
+    pdf_files = sorted(pdf_folder.glob("*.pdf")) #start testing with 10 first
     #temp for testing
     if extracted_folder.exists():
         extracted_folder.unlink()
