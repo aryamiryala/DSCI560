@@ -123,16 +123,16 @@ python3 app.py
 ```
 The flask server will run internally on
 http://127.0.0.1:5000
+Ensure apache is on
+```bash
+sudo systemctl start apache2
+```
 --- 
 
 ## Using the Application 
 Open your browser and navigate to: http://<IP_ADDRESS>/
 
 ---
-
-## Using the Application
-
-Open your browser and navigate to **[http://127.0.0.1:5000/](http://127.0.0.1:5000/)**.
 
 ### Features
 
