@@ -61,8 +61,6 @@
       <a id="resetBtn" class="btn">Reset</a>
       <a id="exportBtn" class="btn green">Export CSV</a>
     </div>
-
-    <div class="small" style="margin-top:8px"></code>.</div>
   </div>
 
   <div id="legend">
@@ -76,7 +74,7 @@
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
   <script>
-  // --- Utilities ---
+  
   function escapeHtml(s){ if(!s && s !== 0) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function colorForType(type){
     if(!type) return '#888';
@@ -86,6 +84,7 @@
     if(t.includes('gas')) return '#fdae61';
     return '#888';
   }
+  // converts the visible json to csv format
   function jsonToCSV(items){
     if(!items.length) return '';
     const keys = Object.keys(items[0]);
@@ -102,14 +101,14 @@
     return lines.join('\n');
   }
 
-  // --- Map & data handling ---
+  // map and data, await to fetch
   (async function(){
     const map = L.map('map').setView([40, -95], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
     const cluster = L.markerClusterGroup();
     let allRows = [];     // raw rows from /api/wells
-    const markersByApi = {}; // api -> marker (for filtering)
+    const markersByApi = {}; // api as marker
 
     // DOM elements
     const statusFilter = document.getElementById('statusFilter');
@@ -137,7 +136,7 @@
 
     // Normalize and create markers
     allRows = rows.map(r => {
-      // Ensure numeric lat/lon - your API uses "latitude" and "longitude"
+      // Ensure numeric lat/lo or else leaflet will break
       return {
         ...r,
         latitude: r.latitude !== null && r.latitude !== undefined ? Number(r.latitude) : null,
@@ -155,7 +154,7 @@
       const props = r;
       const popup = buildPopup(props);
 
-      // use circleMarker for styling; convert to Marker if you prefer icons
+      // circleMarker for styling
       const m = L.circleMarker([lat, lon], {
         radius: 6,
         fillOpacity: 0.95,
@@ -176,7 +175,7 @@
       map.fitBounds(bounds, { padding: [20,20] });
     }
 
-    // --- Filtering ---
+    // filter
     minOil.addEventListener('input', ()=> { minOilLabel.textContent = minOil.value; applyFilters(); });
     statusFilter.addEventListener('change', applyFilters);
     apiSearch.addEventListener('input', applyFilters);
@@ -205,7 +204,7 @@
       });
     }
 
-    // --- CSV export: export currently visible markers in cluster ---
+    // export
     exportBtn.addEventListener('click', ()=> {
       const visible = [];
       cluster.eachLayer(layer => {
@@ -234,7 +233,7 @@
       URL.revokeObjectURL(url);
     });
 
-    // --- Helpers ---
+    // other helpers
     function buildPopup(p) {
       const stim = p.stimulation || (p.stage ? [{ stage: p.stage, fluid_vol: p.fluid_vol, proppant_lbs: p.proppant_lbs }] : []);
       let html = `<div style="min-width:240px"><h4 style="margin:0 0 6px">${escapeHtml(p.well_name || p.api || 'No name')}</h4>`;
