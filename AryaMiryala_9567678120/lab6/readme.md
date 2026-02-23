@@ -30,9 +30,10 @@ The codebase is modularized to separate heavy processing (OCR) from network-depe
 
 | File | Description |
 |------|-------------|
+| **Apache Web Server** | Serves as the primary HTTP server (port 80). Configured as a reverse proxy that forwards all incoming browser requests to the Flask application running on 127.0.0.1:5000. |
 | `app.py` | The Python Flask backend server. Connects to MySQL, joins the `wells` and `stimulation` tables, and serves data as a JSON REST API at `/api/wells`. Also serves the frontend UI. |
 | `index.html` | The frontend UI. Uses Leaflet.js and MarkerCluster to render an interactive map — dynamically plots well markers, color-codes them by well type, handles popup generation, and includes filtering/CSV export controls. |
-| `wellvisualization.php` | *(Alternative Backend)* A PHP script serving the same purpose as the Flask `/api/wells` route. Use this if deploying to a traditional LAMP stack instead of Python/Flask. |
+
 
 ---
 
@@ -116,17 +117,16 @@ python3 insertsql.py \
 > Omit `--password` if your local root user does not require one.
 
 ---
-
-### Step 4 — Start the Web Application
-
+### Step 4 — Start the Web Application Start the Flask backend
 ```bash
 python3 app.py
 ```
+The flask server will run internally on
+http://127.0.0.1:5000
+--- 
 
-The terminal will output:
-```
-Running on http://127.0.0.1:5000
-```
+## Using the Application 
+Open your browser and navigate to: http://<IP_ADDRESS>/
 
 ---
 
