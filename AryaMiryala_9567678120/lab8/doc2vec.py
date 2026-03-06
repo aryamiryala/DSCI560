@@ -3,6 +3,7 @@ import ast
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import normalize
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 # load data
 df = pd.read_csv('cleaned_posts.csv')
@@ -16,7 +17,7 @@ configs = [
     {"name": "Config_Medium", "vector_size": 100, "epochs": 20},
     {"name": "Config_Large", "vector_size": 300, "epochs": 30}
 ]
-
+results = []
 for cfg in configs:
     print(f"--- Training {cfg['name']} ---")
     
@@ -36,7 +37,23 @@ for cfg in configs:
     
     # save clusters 
     df[f"cluster_{cfg['name']}"] = clusters
+    #for evaluation later
+    sil_score = silhouette_score(normalized_vectors, clusters, metric='cosine')
+    db_score = davies_bouldin_score(normalized_vectors, clusters)
+
+    results.append({
+        "Method": "Doc2Vec",
+        "Dimension": cfg["vector_size"],
+        "Silhouette": sil_score,
+        "Davies_Bouldin": db_score
+    })
+
+    print(f"Silhouette Score ({cfg['name']}):", sil_score)
+    print(f"Davies-Bouldin Score ({cfg['name']}):", db_score)
 
 # save final results
 df.to_csv('doc2vec_results.csv', index=False)
+results_df = pd.DataFrame(results)
+
+results_df.to_csv("doc2vec_evaluation_results.csv", index=False)
 print("Task 1 complete! Results saved to lab8_results.csv")
