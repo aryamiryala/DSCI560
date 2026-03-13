@@ -1,0 +1,17 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Llama models
+models/
+*.gguf
+*.bin
+
+# Streamlit cache
+.streamlit/
+
+# Mac files
+.DS_Store
