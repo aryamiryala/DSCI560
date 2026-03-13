@@ -5,7 +5,8 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import LlamaCpp
-from langchain.memory import ConversationBufferMemory
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from langchain.memory.buffer import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from htmlTemplates import css, bot_template, user_template
 
@@ -43,29 +44,26 @@ def get_vectorstore(text_chunks):
 
 
 def get_conversation_chain(vectorstore):
-    #llm = ChatOpenAI()
-    # llm = HuggingFacePipeline.from_model_id(
-    #     model_id="lmsys/vicuna-7b-v1.3",
-    #     task="text-generation",
-    #     model_kwargs={"temperature": 0.01},
-    # )
-    # llm = LlamaCpp(
-    #     model_path="models/llama-2-7b-chat.ggmlv3.q4_1.bin",  n_ctx=1024, n_batch=512) 
     llm = LlamaCpp(
         model_path="models/llama-2-7b-chat.Q2_K.gguf",
         temperature=0.1,
         max_tokens=512,
         n_ctx=2048,
-        n_gpu_layers=50,   #m1 gpu, may need to switch for linux
+        n_gpu_layers=1, # Change this to 32 or -1 to put more layers on your M1 GPU
         verbose=False,
     )
+    
+    # Lab Requirement: Use ConversationBufferMemory 
     memory = ConversationBufferMemory(
-        memory_key='chat_history', return_messages=True)
+        memory_key='chat_history', 
+        return_messages=True
+    )
+    
+    # Create the chain 
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
-        retriever=vectorstore.as_retriever(
-            search_type="similarity", search_kwargs={"k": 4}),
-        memory=memory,
+        retriever=vectorstore.as_retriever(),
+        memory=memory
     )
     return conversation_chain
 
