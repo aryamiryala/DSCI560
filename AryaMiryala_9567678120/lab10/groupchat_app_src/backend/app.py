@@ -31,8 +31,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve frontend
-app.mount("/", StaticFiles(directory="../frontend", html=True), name="static")
 
 manager = ConnectionManager()
 
@@ -149,6 +147,7 @@ async def post_message(payload: MessagePayload, username: str = Depends(get_curr
     asyncio.create_task(maybe_answer_with_llm(session, payload.content))
     return {"ok": True, "id": m.id}
 
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     # Optional auth via query param token
@@ -160,3 +159,6 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.send_json({"type": "ack", "echo": data})
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="static")
+
