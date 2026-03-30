@@ -31,10 +31,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2e6dad2bdbc7e0caca64b29d5eb8f1e85d4b8159
 
 manager = ConnectionManager()
 
