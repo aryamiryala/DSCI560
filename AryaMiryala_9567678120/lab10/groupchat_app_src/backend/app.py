@@ -31,7 +31,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2e6dad2bdbc7e0caca64b29d5eb8f1e85d4b8159
 
 manager = ConnectionManager()
 
@@ -147,6 +150,7 @@ async def post_message(payload: MessagePayload, username: str = Depends(get_curr
     # fire-and-forget LLM answer
     asyncio.create_task(maybe_answer_with_llm(session, payload.content))
     return {"ok": True, "id": m.id}
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
